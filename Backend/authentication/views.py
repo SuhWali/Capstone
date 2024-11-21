@@ -20,5 +20,8 @@ class UserRolesView(APIView):
 
         })
     # function for fetching user details
+
+    def Hello():
+        print("hello world")
     
 
