@@ -1,0 +1,87 @@
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <!-- Header Section -->
+    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+            Sign in to your account
+        </h2>
+    </div>
+
+    <!-- Form Section -->
+    <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <!-- Alert if there's an error -->
+            <app-alert 
+                *ngIf="(error$ | async)" 
+                [message]="error$ | async" 
+                type="error"
+                class="mb-4">
+            </app-alert>
+
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6">
+                <!-- Username Field -->
+                <div>
+                    <label for="username" class="form-label">Username</label>
+                    <div class="mt-1">
+                        <input 
+                            id="username" 
+                            formControlName="username" 
+                            type="text"
+                            class="form-input"
+                            [ngClass]="{'border-red-500 ring-red-500': isFieldInvalid('username')}"
+                            placeholder="Enter your username">
+                    </div>
+                    <div *ngIf="isFieldInvalid('username')" class="error-message">
+                        Please enter your username
+                    </div>
+                </div>
+
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="form-label">Password</label>
+                    <div class="mt-1">
+                        <input 
+                            id="password" 
+                            formControlName="password" 
+                            type="password"
+                            class="form-input"
+                            [ngClass]="{'border-red-500 ring-red-500': isFieldInvalid('password')}"
+                            placeholder="Enter your password">
+                    </div>
+                    <div *ngIf="isFieldInvalid('password')" class="error-message">
+                        Password must be at least 6 characters
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button 
+                        type="submit" 
+                        [disabled]="loginForm.invalid || (loading$ | async)"
+                        class="btn-primary">
+                        <span *ngIf="loading$ | async" class="mr-2">
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </span>
+                        Sign in
+                    </button>
+                </div>
+            </form>
+
+            <!-- Register Link -->
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">
+                            Don't have an account?
+                            <a routerLink="/register" class="font-medium text-primary hover:text-primary-dark">
+                                Register
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
