@@ -51,6 +51,7 @@ THIRD_PARTY_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'allauth.socialaccount'
 
 ]
 
@@ -58,7 +59,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS =[
     'student',
-    'authentication'
+    'authentication',
+    'instructor'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -184,9 +186,9 @@ SIMPLE_JWT = {
 
 # settings.py
 
-# REST_AUTH_REGISTER_SERIALIZERS = {
-#     'REGISTER_SERIALIZER': 'authentication.serializers.CustomRegisterSerializer',
-# }
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'authentication.serializers.CustomRegisterSerializer',
+}
 
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 ACCOUNT_EMAIL_REQUIRED = False

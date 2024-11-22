@@ -1,19 +1,27 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
+import { SharedModule } from '../../shared/shared.module';
+import { DashboardComponent } from './components/domain-documents/dashboard/dashboard.component';
 import { InstructorRoutingModule } from './instructor-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import {SharedModule} from '../../shared/shared.module'
+import { DomainDocumentsComponent } from './components/domain-documents/domain-documents.component'
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    DomainDocumentsComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
-    InstructorRoutingModule
+    FormsModule,
+    ReactiveFormsModule,
+    InstructorRoutingModule,
+    
+
   ]
 })
 export class InstructorModule { }

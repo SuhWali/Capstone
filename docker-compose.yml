@@ -27,6 +27,7 @@ services:
       - "8000:8000"
     volumes:
       - ./Backend:/app
+      - /app/venv
     env_file:
       - ./backend/.env
     depends_on:
@@ -39,6 +40,8 @@ services:
       - "5432:5432"
     volumes:
       - db_data:/var/lib/postgresql/data/
+      - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql  # Mount the dump file
+      
     env_file:  # Add this to correctly load your environment variables
       - ./backend/.env
 

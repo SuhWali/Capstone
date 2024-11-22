@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+# from django.shortcuts import render
+# from django.http import HttpResponse
 
 
 from rest_framework.views import APIView
@@ -17,10 +17,4 @@ class UserRolesView(APIView):
         # permissions = user.get_user_permissions()  # List of permission codenames
         return Response({
             'roles': roles,
-
         })
-    # function for fetching user details
-
-
-    
-

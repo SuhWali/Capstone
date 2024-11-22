@@ -20,6 +20,7 @@ export class RoleGuard implements CanActivate {
     return this.store.select(state => state.auth.roles).pipe(
       map(role => {
         if (role[0] === requiredRole) {
+          console.log(role[0],"kjj" ,requiredRole)
           return true;
         }
         this.router.navigate(['/unauthorized']);
