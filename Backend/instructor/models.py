@@ -19,16 +19,14 @@ class Grade(models.Model):
 
 
 class Domain(models.Model):
-    # Map to existing domain table
-    class Meta:
-        managed = False  # Tells Django not to manage this table
-        db_table = 'domains'  # Use your actual table name
-        
-    # Define fields exactly as they exist in your DB
     domainid = models.AutoField(primary_key=True)
-    gradeid = models.CharField(max_length=100)
-    domain_abb = models.ForeignKey(Grade, on_delete=models.CASCADE)
-    domainname = models.TextField(null=True, blank=True)
+    domainname = models.CharField(max_length=100)
+    gradeid = models.ForeignKey('Grade', db_column='gradeid', on_delete=models.CASCADE)
+    domain_abb = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'domains'
 
 
 

@@ -23,5 +23,5 @@ import instructor.urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include(authentication.urls)),
-    path("instructor", include(instructor.urls))
+    path("instructor/", include(instructor.urls))
 ]

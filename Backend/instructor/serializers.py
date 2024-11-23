@@ -8,11 +8,11 @@ class GradeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class DomainSerializer(serializers.ModelSerializer):
-    grade_name = serializers.CharField(source='grade.name', read_only=True)
+    grade_name = serializers.CharField(source='gradeid.gradename', read_only=True)
     
     class Meta:
         model = Domain
-        fields = ['id', 'name', 'grade', 'grade_name', 'description']
+        fields = [ 'domainid', 'gradeid', 'grade_name','domain_abb', 'domainname']
 
 class DocumentSerializer(serializers.ModelSerializer):
     domain_name = serializers.CharField(source='domain.name', read_only=True)

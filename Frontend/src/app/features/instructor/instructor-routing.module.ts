@@ -1,19 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {DashboardComponent} from './components/domain-documents/dashboard/dashboard.component'
-import { DomainDocumentsComponent } from './components/domain-documents/domain-documents.component'
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { GradeSelectionComponent } from './components/grade-selection/grade-selection.component'
+import { DomainListComponent } from './components/domain-list/domain-list.component'
+import { DocumentManagementComponent } from './components/documents/document-management.component'
 
 const routes: Routes = [
 
   {
   path:"dashboard",
   component:DashboardComponent,
-  
   },
   {
-  path:"domain",
-  component:DomainDocumentsComponent
+    path: 'grades',
+    component: GradeSelectionComponent
+  },
+  {
+    path: 'modules',
+    component: DomainListComponent
+  },
+  {
+    path: 'documents/:domainId',
+    component: DocumentManagementComponent
   }
+
 ];
 
 @NgModule({

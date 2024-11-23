@@ -2,17 +2,26 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../../shared/shared.module';
-import { DashboardComponent } from './components/domain-documents/dashboard/dashboard.component';
-import { InstructorRoutingModule } from './instructor-routing.module';
-import { DomainDocumentsComponent } from './components/domain-documents/domain-documents.component'
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { GradeSelectionComponent } from './components/grade-selection/grade-selection.component'
+import { DomainListComponent } from './components/domain-list/domain-list.component'
+import { DocumentManagementComponent } from './components/documents/document-management.component'
 
+// import { DomainDocumentsComponent } from './components/domain-documents/domain-documents.component';
+import { InstructorRoutingModule } from './instructor-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { InstructorService } from '../instructor/services/instructor.service'
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    DomainDocumentsComponent
+    GradeSelectionComponent,
+    DomainListComponent,
+    DocumentManagementComponent
+
+
+    // DomainDocumentsComponent
   ],
   imports: [
     CommonModule,
@@ -20,8 +29,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     InstructorRoutingModule,
-    
 
-  ]
+  ],
+  providers: [InstructorService],
+
 })
 export class InstructorModule { }
