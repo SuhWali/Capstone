@@ -13,13 +13,18 @@ export const initialState: AuthState = {
 
 export const authReducer = createReducer(
     initialState,
+    on(AuthActions.initializeAuth, (state) => ({
+        ...state,
+        loading: true,
+      })),
     on(AuthActions.initializeAuthSuccess, (state, { token, roles }) => ({
         ...state,
         token,
         roles,
         loading: false,
-        error: null
+        error: null,
       })),
+      
     on(AuthActions.login, (state) => ({
         ...state,
         loading: true,

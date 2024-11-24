@@ -16,6 +16,13 @@ export class InstructorService {
         this.selectedGrade.next(grade);
     }
 
+
+
+    getSelectedGrade(): Grade | null {
+        return this.selectedGrade.getValue();
+    }
+
+
     getMyGrades(): Observable<Grade[]> {
         return this.http.get<Grade[]>(`${this.apiUrl}/instructor/instructor/my_grades/`);
     }
@@ -29,16 +36,16 @@ export class InstructorService {
     }
 
     getDocuments(domainId: number): Observable<Document[]> {
-        return this.http.get<Document[]>(`${this.apiUrl}/instructor/instructor/documents/`, {
+        return this.http.get<Document[]>(`${this.apiUrl}/instructor/documents/`, {
             params: { domain: domainId.toString() }
         });
     }
 
     uploadDocument(document: FormData): Observable<Document> {
-        return this.http.post<Document>(`${this.apiUrl}/instructor/instructor/documents/`, document);
+        return this.http.post<Document>(`${this.apiUrl}/instructor/documents/`, document);
     }
 
     deleteDocument(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/instructor/instructor/documents/${id}/`);
+        return this.http.delete<void>(`${this.apiUrl}/instructor/documents/${id}/`);
     }
 }

@@ -9,16 +9,15 @@ import { Grade } from '../../models/instructor.models'
     templateUrl: './grade-selection.component.html',
     //   styleUrl: './home.component.css'
 })
-export class GradeSelectionComponent implements OnInit {
+export class GradeSelectionComponent  {
     grades$ = this.instructorService.getMyGrades();
-
     constructor(
         private instructorService: InstructorService,
         private router: Router
     ) { }
-    ngOnInit(): void {
-        throw new Error('Method not implemented.');
-    }
+    // ngOnInit(): void {
+    //     throw new Error('Method not implemented.');
+    // }
 
     selectGrade(grade: Grade) {
         this.instructorService.setSelectedGrade(grade);

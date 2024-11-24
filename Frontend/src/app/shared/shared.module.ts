@@ -24,8 +24,8 @@ import { FooterComponent } from './components/footer/footer.component';
   exports: [
     AppAlertComponent,
     MainLayoutComponent,
-    AppHeaderComponent,
-    FooterComponent,
+    // AppHeaderComponent,
+    // FooterComponent,
 
   ]
 })

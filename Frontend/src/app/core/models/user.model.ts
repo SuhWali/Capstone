@@ -24,7 +24,7 @@ export interface UserRoles {
 
 export interface AuthState {
     token: TokenResponse | null;
-    roles: string[];
+    roles: string[] | null;
     loading: boolean;
     error: string | null;
 }

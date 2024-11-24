@@ -7,7 +7,7 @@ export const initializeAuth = createAction('[Auth] Initialize');
 
 export const initializeAuthSuccess = createAction(
     '[Auth] Initialize Success',
-    props<{ token: TokenResponse | null; roles: string[] }>()
+    props<{ token: TokenResponse | null; roles: string[] | null }>()
 );
 
 

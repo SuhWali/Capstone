@@ -16,22 +16,49 @@ export class AuthEffects {
     ) {
     }
 
+    // initializeAuth$ = createEffect(() =>
+    //     this.actions$.pipe(
+    //         ofType(AuthActions.initializeAuth),
+    //         map(() => {
+    //             const storedState = getStoredAuthState();
+    //             if (storedState.token && storedState.roles) {
+    //                 return AuthActions.initializeAuthSuccess({
+    //                     token: storedState.token,
+    //                     roles: storedState.roles
+    //                 });
+    //             }
+    //             return AuthActions.loginFailure({ error: 'No stored auth state found' });
+    //         })
+    //     )
+    // );
+
     initializeAuth$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.initializeAuth),
-            map(() => {
+            switchMap(() => {
                 const storedState = getStoredAuthState();
-                if (storedState.token && storedState.roles ) {
-                    return AuthActions.initializeAuthSuccess({
-                        token: storedState.token,
-                        roles: storedState.roles
-                    });
+
+                if (storedState.token && storedState.roles) {
+                    // Validate authentication by calling the backend endpoint
+                    return this.authService.getUserRoles().pipe(
+                        map(response => {
+
+                            // Use response.roles instead of storedState.roles
+                            return AuthActions.initializeAuthSuccess({
+                                token: storedState.token ?? null,
+                                roles: response.roles ?? null
+                            });
+                        }),
+                        catchError((error) => {
+                            return of(AuthActions.logout());
+                        })
+                    );
                 }
-                return AuthActions.loginFailure({ error: 'No stored auth state found' });
+                // If no stored state is found, dispatch login failure
+                return of(AuthActions.loginFailure({ error: 'No stored auth state found' }));
             })
         )
     );
-
 
     login$ = createEffect(() =>
         this.actions$.pipe(
@@ -48,27 +75,13 @@ export class AuthEffects {
     // );
     loginSuccess$ = createEffect(() =>
         this.actions$.pipe(
-          ofType(AuthActions.loginSuccess),
-          tap(({ token }) => {
-            storeAuthState({ token });
-          }),
-          map(() => AuthActions.getRoles())
+            ofType(AuthActions.loginSuccess),
+            tap(({ token }) => {
+                storeAuthState({ token });
+            }),
+            map(() => AuthActions.getRoles())
         )
-      );
-    
-      getRolesSuccess$ = createEffect(() =>
-        this.actions$.pipe(
-          ofType(AuthActions.getRolesSuccess),
-          tap(({ roles }) => {
-            storeAuthState({ roles });
-            // Redirect based on role
-            const defaultRole = roles[0];
-            this.router.navigate([`/${defaultRole.toLowerCase()}`]);
-          })
-        ),
-        { dispatch: false }
-      );
-    
+    );
 
     getRoles$ = createEffect(() =>
         this.actions$.pipe(
@@ -82,39 +95,41 @@ export class AuthEffects {
             )
         )
     );
-
-    // getRolesSuccess$ = createEffect(
-    //     () =>
-    //         this.actions$.pipe(
-    //             ofType(AuthActions.getRolesSuccess),
-    //             tap(({ roles }) => {
-    //                 // Navigate based on the first role (assuming one role per user)
-    //                 const role = roles[0];
-    //                 console.log(role, "suhayb's role ")
-    //                 if (role === 'student') {
-    //                     this.router.navigate(['/student/dashboard']);
-    //                 } else if (role === 'instructor') {
-    //                     this.router.navigate(['/instructor/dashboard']);
-    //                 }
-    //             })
-    //         ),
-    //     { dispatch: false }
-    // );
-
+    getRolesSuccess$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.getRolesSuccess),
+            tap(({ roles }) => {
+                storeAuthState({ roles });
+                // Redirect based on role
+                const defaultRole = roles[0];
+                this.router.navigate([`/${defaultRole.toLowerCase()}/`]);
+            })
+        ),
+        { dispatch: false }
+    );
 
     logout$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.logout),
+            tap(() => {
+                // Clear tokens
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                localStorage.removeItem('user_roles');
+                
+                // Redirect to login
+                window.location.reload();
+            }),
             mergeMap(() =>
                 this.authService.logout().pipe(
-                    map(() => AuthActions.logoutSuccess()),
-                    tap(() => {
-                        localStorage.removeItem('token');
-                        this.router.navigate(['/login']);
+                    map(() => {
+                        return AuthActions.logoutSuccess();
+                    }),
+                    catchError(() => {
+                        return of(AuthActions.logoutSuccess()); // Fallback to success
                     })
                 )
             )
         )
     );
-
 }

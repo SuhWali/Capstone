@@ -16,7 +16,6 @@ export function getStoredAuthState(): Partial<AuthState> {
     const access = localStorage.getItem('access_token');
     const refresh = localStorage.getItem('refresh_token');
     const rolesString = localStorage.getItem('user_roles');
-    // console.log(access,rolesString,"skdhjfa")
     return {
         token: access && refresh ? { access, refresh } : null,
         roles: rolesString ? JSON.parse(rolesString) : [] // Always return an array

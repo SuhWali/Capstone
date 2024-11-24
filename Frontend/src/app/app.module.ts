@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module'
 import { SharedModule } from './shared/shared.module'
-import { FeaturesModule } from './features/features.module'
+// import { FeaturesModule } from './features/features.module'
 
 
 import { StoreModule } from '@ngrx/store';
@@ -30,8 +30,8 @@ import { authInterceptor } from './core/interceptors/auth.interceptor'
     ReactiveFormsModule,
     SharedModule,
     CoreModule,
-    
-    FeaturesModule,
+    // FeaturesModule,
+
     StoreModule.forRoot( {
       auth: authReducer
     }),

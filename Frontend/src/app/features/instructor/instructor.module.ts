@@ -20,8 +20,6 @@ import { InstructorService } from '../instructor/services/instructor.service'
     DomainListComponent,
     DocumentManagementComponent
 
-
-    // DomainDocumentsComponent
   ],
   imports: [
     CommonModule,

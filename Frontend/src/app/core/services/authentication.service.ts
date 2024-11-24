@@ -19,7 +19,7 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    return this.http.post<void>(`${environment.apiUrl}/auth/logout`, {});
+    return this.http.post<void>(`${environment.apiUrl}/auth/logout/`, {});
   }
 
   refreshToken(): Observable<{ token: string }> {

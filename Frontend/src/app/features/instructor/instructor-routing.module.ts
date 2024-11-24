@@ -5,26 +5,33 @@ import { GradeSelectionComponent } from './components/grade-selection/grade-sele
 import { DomainListComponent } from './components/domain-list/domain-list.component'
 import { DocumentManagementComponent } from './components/documents/document-management.component'
 
+
 const routes: Routes = [
-
   {
-  path:"dashboard",
-  component:DashboardComponent,
-  },
-  {
-    path: 'grades',
-    component: GradeSelectionComponent
-  },
-  {
-    path: 'modules',
-    component: DomainListComponent
-  },
-  {
-    path: 'documents/:domainId',
-    component: DocumentManagementComponent
+      path: '',  // Important: Empty path
+      component: DashboardComponent,
+      children: [
+        {
+          path: 'grades',
+          component: GradeSelectionComponent
+        },
+      
+        {
+          path: 'modules',
+          component: DomainListComponent
+        },
+          {
+            path: 'documents/:domainId',
+            component: DocumentManagementComponent
+          }
+      ]
   }
-
 ];
+
+
+
+
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

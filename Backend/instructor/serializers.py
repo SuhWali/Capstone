@@ -15,10 +15,10 @@ class DomainSerializer(serializers.ModelSerializer):
         fields = [ 'domainid', 'gradeid', 'grade_name','domain_abb', 'domainname']
 
 class DocumentSerializer(serializers.ModelSerializer):
-    domain_name = serializers.CharField(source='domain.name', read_only=True)
+    domain_name = serializers.CharField(source='domain.domainname', read_only=True)
     uploaded_by_name = serializers.CharField(source='uploaded_by.username', read_only=True)
     
     class Meta:
         model = Document
         fields = ['id', 'title', 'file', 'domain', 'domain_name', 
-                 'uploaded_by', 'uploaded_by_name', 'uploaded_at', 'description']
+                  'uploaded_by', 'uploaded_by_name', 'uploaded_at', 'description']

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InstructorService } from '../../services/instructor.service'
 import { Grade, Domain } from '../../models/instructor.models'
-import { Observable, Subscription, filter } from 'rxjs';
+import { Observable, Subscription, filter, switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-domain-list',
@@ -10,7 +10,7 @@ import { Observable, Subscription, filter } from 'rxjs';
     //   styleUrl: './home.component.css'
 })
 
-export class DomainListComponent implements OnInit, OnDestroy {
+export class DomainListComponent implements  OnDestroy {
     domains$: Observable<Domain[]> = new Observable();
     selectedGrade$ = this.instructorService.selectedGrade$;
     private subscription: Subscription;
@@ -25,8 +25,21 @@ export class DomainListComponent implements OnInit, OnDestroy {
             this.domains$ = this.instructorService.getDomains(grade.gradeid);
         });
     }
-    ngOnInit(): void {
-        throw new Error('Method not implemented.');
+
+    ngOnInit() {
+        // Check if we have a selected grade
+        const currentGrade = this.instructorService.getSelectedGrade();
+        if (!currentGrade) {
+            // If no grade is selected, redirect back to grade selection
+            this.router.navigate(['/instructor/grades']);
+            return;
+        }
+
+        // Initialize domains based on selected grade
+        this.domains$ = this.selectedGrade$.pipe(
+            filter((grade): grade is Grade => grade !== null),
+            switchMap(grade => this.instructorService.getDomains(grade.gradeid))
+        );
     }
 
     ngOnDestroy() {

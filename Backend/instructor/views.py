@@ -46,16 +46,18 @@ class DocumentViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        # Only show documents for domains in instructor's grades
-        instructor_grades = InstructorGrade.objects.filter(instructor=self.request.user) # pylint: disable=E1101
-        return Document.objects.filter( # pylint: disable=E1101
-            domain__grade__in=[ig.grade for ig in instructor_grades]
-        ) 
+        # Fetch the grades managed by the instructor
+        instructor_grades = InstructorGrade.objects.filter(instructor=self.request.user)
+        grade_ids = instructor_grades.values_list('gradeid', flat=True)
+
+        # Retrieve domains associated with those grades
+        domain_ids = Domain.objects.filter(grade_id__in=grade_ids).values_list('id', flat=True)
+
+        # Return documents that belong to those domains
+        return Document.objects.filter(domain_id__in=domain_ids)
 
     def perform_create(self, serializer):
         serializer.save(uploaded_by=self.request.user)
-
-
 
 
 class GradeAssignmentViewSet(viewsets.ViewSet):
