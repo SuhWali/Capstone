@@ -18,6 +18,7 @@ export class DocumentManagementComponent implements OnInit {
     currentDomain$: Observable<Domain> = new Observable();
     private domainId: number = 0;
 
+
     constructor(
         private fb: FormBuilder,
         private route: ActivatedRoute,
@@ -31,6 +32,7 @@ export class DocumentManagementComponent implements OnInit {
         });
     }
 
+
     ngOnInit() {
         this.route.params.pipe(
             switchMap(params => {
@@ -41,11 +43,21 @@ export class DocumentManagementComponent implements OnInit {
             this.currentDomain$ = new BehaviorSubject(domain);
             this.loadDocuments();
         });
+        console.log(this.domainId, "here")
     }
 
     onFileChange(event: Event) {
         const file = (event.target as HTMLInputElement).files?.[0];
-        this.uploadForm.patchValue({ file });
+        if (file) {
+            // Get the file name without extension
+            const fileName = file.name.split('.').slice(0, -1).join('.');
+
+            // Update both the file and title in the form
+            this.uploadForm.patchValue({
+                file: file,
+                title: fileName
+            });
+        }
     }
 
     loadDocuments() {

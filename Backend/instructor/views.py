@@ -1,19 +1,20 @@
-from django.shortcuts import render
 
-# Create your views here.
+from django.core.exceptions import PermissionDenied
+from django.utils.timezone import now
+from django.contrib.auth import get_user_model
 
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from random import choice
-from django.utils.timezone import now
 
 from . serializers import DocumentSerializer, GradeSerializer, DomainSerializer
+
 from .models import InstructorGrade, Domain, Document, Grade
 
-from django.contrib.auth import get_user_model
+
 
 User = get_user_model()
 
@@ -40,25 +41,112 @@ class InstructorViewSet(viewsets.ViewSet):
         domains = Domain.objects.filter(gradeid=grade_id) # pylint: disable=E1101
         serializer = DomainSerializer(domains, many=True)
         return Response(serializer.data)
+    
+    @action(detail=True, methods=['GET'])
+    def domain_detail(self, request, pk=None):
+        """
+        Retrieve a specific domain by its ID, ensuring the instructor has access to it.
+        """
+        try:
+            # Fetch the domain
+            domain = Domain.objects.get(domainid=pk)  # pylint: disable=E1101
+        except Domain.DoesNotExist:   # pylint: disable=E1101
+            return Response({"error": "Domain not found"}, status=404)
+
+        # Check if the instructor has access to the grade associated with the domain
+        if not InstructorGrade.objects.filter(instructor=request.user, grade_id=domain.gradeid.gradeid).exists():  # pylint: disable=E1101
+            return Response({"error": "Not authorized to access this domain"}, status=403)
+
+        # Serialize and return the domain data
+        serializer = DomainSerializer(domain)
+        return Response(serializer.data)
+
 
 class DocumentViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentSerializer
     permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser]
 
     def get_queryset(self):
-        # Fetch the grades managed by the instructor
-        instructor_grades = InstructorGrade.objects.filter(instructor=self.request.user)
-        grade_ids = instructor_grades.values_list('gradeid', flat=True)
-
-        # Retrieve domains associated with those grades
-        domain_ids = Domain.objects.filter(grade_id__in=grade_ids).values_list('id', flat=True)
-
-        # Return documents that belong to those domains
-        return Document.objects.filter(domain_id__in=domain_ids)
+        if self.request.user.is_superuser:
+            return Document.objects.all()   # pylint: disable=E1101
+        
+        # Get the grades this instructor is assigned to
+        instructor_grades = InstructorGrade.objects.filter( # pylint: disable=E1101
+            instructor=self.request.user
+        ).values_list('grade', flat=True)
+        
+        # Return documents for domains that belong to these grades
+        # and were uploaded by this instructor
+        return Document.objects.filter( # pylint: disable=E1101
+            instructor=self.request.user,
+            domain__gradeid__in=instructor_grades
+        )
 
     def perform_create(self, serializer):
-        serializer.save(uploaded_by=self.request.user)
+        serializer.save(instructor=self.request.user)
 
+    def create(self, request, *args, **kwargs):
+        data = request.data.copy()
+        if 'file' not in request.FILES:
+            return Response(
+                {'error': 'No file was submitted'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        if 'domain' not in data:
+            return Response(
+                {'error': 'Domain must be specified'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.instructor != request.user and not request.user.is_superuser:
+            raise PermissionDenied("You don't have permission to edit this document")
+        
+        # Validate the new domain if it's being changed
+        if 'domain' in request.data:
+            has_permission = InstructorGrade.objects.filter(    # pylint: disable=E1101
+                instructor=request.user,
+                grade=Domain.objects.get(domainid=request.data['domain']).gradeid   # pylint: disable=E1101
+            ).exists()
+            if not has_permission and not request.user.is_superuser:
+                raise PermissionDenied("You don't have permission to move documents to this domain")
+                
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.instructor != request.user and not request.user.is_superuser:
+            raise PermissionDenied("You don't have permission to delete this document")
+        return super().destroy(request, *args, **kwargs)
+
+    @action(detail=False, methods=['GET'])
+    def available_domains(self, request):
+        """
+        Get list of domains available to the instructor for uploading documents
+        """
+        if request.user.is_superuser:
+            domains = Domain.objects.all()  # pylint: disable=E1101
+        else:
+            instructor_grades = InstructorGrade.objects.filter( # pylint: disable=E1101
+                instructor=request.user
+            ).values_list('grade', flat=True)
+            domains = Domain.objects.filter(gradeid__in=instructor_grades)  # pylint: disable=E1101
+            
+        serializer = DomainSerializer(domains, many=True)
+        return Response(serializer.data)
 
 class GradeAssignmentViewSet(viewsets.ViewSet):
     # permission_classes = [IsAdminUser]  # Only admins can assign grades

@@ -2,6 +2,7 @@
 # models.py
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -43,14 +44,44 @@ class InstructorGrade(models.Model):
 
 
 
-# New table for documents
+
+
+
+def document_upload_path(instance, filename):
+    # Files will be uploaded to MEDIA_ROOT/documents/domain_<id>/instructor_<id>/<filename>
+    return f'documents/domain_{instance.domain.domainid}/instructor_{instance.instructor.id}/{filename}'
+
 class Document(models.Model):
+    id = models.AutoField(primary_key=True)
+    instructor = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='documents',
+        db_column='instructor_id'
+    )
+    domain = models.ForeignKey(
+        'Domain',  # Reference to your existing Domain model
+        on_delete=models.CASCADE,
+        related_name='documents',
+        db_column='domain_id'
+    )
     title = models.CharField(max_length=255)
-    file = models.FileField(upload_to='documents/')
-    domain = models.ForeignKey(Domain, on_delete=models.CASCADE, related_name='documents')
-    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
     description = models.TextField(null=True, blank=True)
+    upload_date = models.DateTimeField(default=timezone.now)
+    file = models.FileField(
+        upload_to=document_upload_path,
+        max_length=500,
+    )
 
     class Meta:
-        db_table = 'document'  # Specify the table name you want
+        db_table = 'documents'
+        ordering = ['-upload_date']
+
+    def __str__(self):
+        return f"{self.title} - {self.domain.domainname} - {self.instructor.username}"   #  pylint: disable=E1101
+    
+    # def delete(self, *args, **kwargs):
+    #     # Delete the file when the model instance is deleted
+    #     if self.file:
+    #         self.file.delete()
+    #     super().delete(*args, **kwargs)

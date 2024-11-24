@@ -32,7 +32,7 @@ export class InstructorService {
     }
 
     getDomain(id: number): Observable<Domain> {
-        return this.http.get<Domain>(`${this.apiUrl}/instructor/instructor/domains/${id}/`);
+        return this.http.get<Domain>(`${this.apiUrl}/instructor/instructor/${id}/domain_detail/`);
     }
 
     getDocuments(domainId: number): Observable<Document[]> {
