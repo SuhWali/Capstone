@@ -10,9 +10,15 @@ from rest_framework.parsers import MultiPartParser, FormParser
 
 from random import choice
 
+import logging
+
 from . serializers import DocumentSerializer, GradeSerializer, DomainSerializer
 
 from .models import InstructorGrade, Domain, Document, Grade
+
+from .utils.utils import DocumentAnalyzer
+
+from .utils.content_processor import ContentProcessor
 
 
 
@@ -38,7 +44,7 @@ class InstructorViewSet(viewsets.ViewSet):
         if not instructor_grades.exists():
             return Response({"error": "Not authorized for this grade"}, status=403)
             
-        domains = Domain.objects.filter(gradeid=grade_id) # pylint: disable=E1101
+        domains = Domain.objects.filter(grade=grade_id) # pylint: disable=E1101
         serializer = DomainSerializer(domains, many=True)
         return Response(serializer.data)
     
@@ -54,7 +60,7 @@ class InstructorViewSet(viewsets.ViewSet):
             return Response({"error": "Domain not found"}, status=404)
 
         # Check if the instructor has access to the grade associated with the domain
-        if not InstructorGrade.objects.filter(instructor=request.user, grade_id=domain.gradeid.gradeid).exists():  # pylint: disable=E1101
+        if not InstructorGrade.objects.filter(instructor=request.user, grade_id=domain.grade.gradeid).exists():  # pylint: disable=E1101
             return Response({"error": "Not authorized to access this domain"}, status=403)
 
         # Serialize and return the domain data
@@ -62,29 +68,45 @@ class InstructorViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
+
+
+logger = logging.getLogger(__name__)
+
 class DocumentViewSet(viewsets.ModelViewSet):
     serializer_class = DocumentSerializer
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.analyzer = DocumentAnalyzer()
+
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Document.objects.all()   # pylint: disable=E1101
         
-        # Get the grades this instructor is assigned to
         instructor_grades = InstructorGrade.objects.filter( # pylint: disable=E1101
             instructor=self.request.user
         ).values_list('grade', flat=True)
         
-        # Return documents for domains that belong to these grades
-        # and were uploaded by this instructor
         return Document.objects.filter( # pylint: disable=E1101
             instructor=self.request.user,
-            domain__gradeid__in=instructor_grades
+            domain__grade__in=instructor_grades
         )
 
     def perform_create(self, serializer):
-        serializer.save(instructor=self.request.user)
+        document = serializer.save(instructor=self.request.user)
+        
+        # Trigger document analysis if it's a PDF
+        if document.file.name.lower().endswith('.pdf'):
+            try:
+                logger.info(f"Starting analysis for document: {document.file.name}")
+                self.analyzer.analyze_document(document)
+                logger.info(f"Analysis completed for document: {document.file.name}")
+            except Exception as e:
+                logger.error(f"Error during document analysis: {str(e)}")
+                # Note: We don't raise the exception here to avoid failing the upload
+                # The analysis can be retried later if needed
 
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
@@ -115,16 +137,26 @@ class DocumentViewSet(viewsets.ModelViewSet):
         if instance.instructor != request.user and not request.user.is_superuser:
             raise PermissionDenied("You don't have permission to edit this document")
         
-        # Validate the new domain if it's being changed
         if 'domain' in request.data:
             has_permission = InstructorGrade.objects.filter(    # pylint: disable=E1101
                 instructor=request.user,
-                grade=Domain.objects.get(domainid=request.data['domain']).gradeid   # pylint: disable=E1101
+                grade=Domain.objects.get(domainid=request.data['domain']).grade   # pylint: disable=E1101
             ).exists()
             if not has_permission and not request.user.is_superuser:
                 raise PermissionDenied("You don't have permission to move documents to this domain")
-                
-        return super().update(request, *args, **kwargs)
+        
+        response = super().update(request, *args, **kwargs)
+        
+        # Re-analyze if file was updated and is a PDF
+        if 'file' in request.FILES and request.FILES['file'].name.lower().endswith('.pdf'):
+            try:
+                logger.info(f"Starting re-analysis for updated document: {instance.file.name}")
+                self.analyzer.analyze_document(instance)
+                logger.info(f"Re-analysis completed for document: {instance.file.name}")
+            except Exception as e:
+                logger.error(f"Error during document re-analysis: {str(e)}")
+        
+        return response
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -134,19 +166,149 @@ class DocumentViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['GET'])
     def available_domains(self, request):
-        """
-        Get list of domains available to the instructor for uploading documents
-        """
         if request.user.is_superuser:
             domains = Domain.objects.all()  # pylint: disable=E1101
         else:
             instructor_grades = InstructorGrade.objects.filter( # pylint: disable=E1101
                 instructor=request.user
             ).values_list('grade', flat=True)
-            domains = Domain.objects.filter(gradeid__in=instructor_grades)  # pylint: disable=E1101
+            domains = Domain.objects.filter(grade__in=instructor_grades)  # pylint: disable=E1101
             
         serializer = DomainSerializer(domains, many=True)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['POST'])
+    def analyze(self, request, pk=None):
+        """Analyze document and store both concept and exercise results."""
+        document = self.get_object()
+        
+        try:
+            analyzer = DocumentAnalyzer()
+            results = analyzer.analyze_document(document)
+            
+            return Response({
+                'status': 'success',
+                'message': 'Analysis completed',
+                'paths': results['paths'],
+                'results': {
+                    'concepts': results['concepts'],
+                    'exercises': results['exercises']
+                }
+            })
+        except Exception as e:
+            return Response({
+                'status': 'error',
+                'message': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=True, methods=['GET'])
+    def analysis(self, request, pk=None):
+        """Get the analysis results."""
+        document = self.get_object()
+        analysis_type = request.query_params.get('type', 'both')
+        
+        if analysis_type not in ['both', 'concepts', 'exercises']:
+            return Response({
+                'status': 'error',
+                'message': 'Invalid analysis type. Must be one of: both, concepts, exercises'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        analyzer = DocumentAnalyzer()
+        result = analyzer.get_analysis_result(document, analysis_type)
+        
+        if result:
+            return Response({
+                'status': 'success',
+                'result': result
+            })
+        else:
+            return Response({
+                'status': 'not_found',
+                'message': 'No analysis found for this document'
+            }, status=status.HTTP_404_NOT_FOUND)
+    
+    @action(detail=True, methods=['POST'])
+    def reanalyze(self, request, pk=None):
+        """Manually trigger re-analysis of a document."""
+        document = self.get_object()
+        
+        if not document.file.name.lower().endswith('.pdf'):
+            return Response(
+                {'error': 'Analysis is only available for PDF documents'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            result, analysis_path = self.analyzer.analyze_document(document)
+            return Response({
+                'message': 'Analysis completed successfully',
+                'result': result
+            })
+        except Exception as e:
+            logger.error(f"Error during re-analysis: {str(e)}")
+            return Response(
+                {'error': f'Error during analysis: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        
+
+
+
+
+    @action(detail=True, methods=['POST'])
+    def process_content(self, request, pk=None):
+        """Process document content and populate related tables."""
+        document = self.get_object()
+        
+        try:
+            processor = ContentProcessor()
+            results = processor.process_document_content(document)
+            
+            return Response({
+                'status': 'success',
+                'results': results
+            })
+        except Exception as e:
+            return Response({
+                'status': 'error',
+                'message': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=True, methods=['GET'])
+    def content_summary(self, request, pk=None):
+        """Get summary of document content and relationships."""
+        document = self.get_object()
+        
+        summary = {
+            'standards': [{
+                'id': rel.standard.id,
+                'description': rel.standard.description,
+                'score': rel.confidence_score,
+                # 'relationship': rel.relationship_type
+            } for rel in document.documentstandard_set.all()],
+            
+            'exercises': [{
+                'id': exercise.exercise_id,
+                'content': exercise.content[:100] + '...',
+                'standards': [{
+                    'id': rel.standard.id,
+                    'score': rel.confidence_score
+                } for rel in exercise.exercisestandard_set.all()]
+            } for exercise in document.exercises.all()],
+            
+            'examples': [{
+                'id': example.example_id,
+                'content': example.content[:100] + '...',
+                'standards': [{
+                    'id': rel.standard.id,
+                    'score': rel.confidence_score
+                } for rel in example.examplestandard_set.all()]
+            } for example in document.examples.all()]
+        }
+        
+        return Response(summary)
+
+
 
 class GradeAssignmentViewSet(viewsets.ViewSet):
     # permission_classes = [IsAdminUser]  # Only admins can assign grades

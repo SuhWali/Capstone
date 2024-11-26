@@ -11,18 +11,18 @@ class GradeSerializer(serializers.ModelSerializer):
 
 class DomainSerializer(serializers.ModelSerializer):
     grade_name = serializers.CharField(
-        source='gradeid.gradename', read_only=True)
+        source='grade.gradename', read_only=True)
 
     class Meta:
         model = Domain
-        fields = ['domainid', 'gradeid',
+        fields = ['domainid', 'grade',
                 'grade_name', 'domain_abb', 'domainname']
 
 
 class DocumentSerializer(serializers.ModelSerializer):
     instructor_name = serializers.CharField(source='instructor.username', read_only=True)
     domain_name = serializers.CharField(source='domain.domainname', read_only=True)
-    domain_grade = serializers.CharField(source='domain.gradeid.gradename', read_only=True)
+    domain_grade = serializers.CharField(source='domain.grade.gradename', read_only=True)
     upload_date = serializers.DateTimeField(read_only=True)
     file_url = serializers.SerializerMethodField()
     

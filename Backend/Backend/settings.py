@@ -21,6 +21,13 @@ from datetime import timedelta
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+os.environ['LANGCHAIN_TRACING_V2'] = 'true'  # Note: lowercase 'true'
+os.environ['LANGCHAIN_ENDPOINT'] = config('LANGCHAIN_ENDPOINT', default='https://api.smith.langchain.com')
+os.environ['LANGCHAIN_API_KEY'] = config('LANGCHAIN_API_KEY')
+# os.environ['LANGCHAIN_PROJECT'] = config('LANGCHAIN_PROJECT', default='default')
+
+OPENAI_API_KEY = config('OPENAI_API_KEY')
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
