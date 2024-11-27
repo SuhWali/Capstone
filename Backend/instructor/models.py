@@ -8,9 +8,7 @@ from pathlib import Path
 import json
 from django.db import transaction
 
-
 User = get_user_model()
-
 
 class Grade(models.Model):
     # Map to existing grade table
@@ -23,7 +21,6 @@ class Grade(models.Model):
     gradename = models.CharField(max_length=100)
     # Add other fields that exist in your table
 
-
 class Domain(models.Model):
     domainid = models.AutoField(primary_key=True)
     domainname = models.CharField(max_length=100)
@@ -34,7 +31,6 @@ class Domain(models.Model):
         managed = False
         db_table = 'domains'
 
-
 class Clusters(models.Model):
     clusterid = models.AutoField(primary_key=True)
     domainid = models.ForeignKey('Domain', db_column='domainid', on_delete=models.CASCADE)
@@ -43,7 +39,6 @@ class Clusters(models.Model):
     class Meta:
         managed = False
         db_table = 'clusters'
-
 
 class Standards(models.Model):
     standardid = models.AutoField(primary_key=True)
@@ -54,7 +49,6 @@ class Standards(models.Model):
     class Meta:
         managed = False
         db_table = 'standards'
-
 
 # New table for instructor-grade relationship
 class InstructorGrade(models.Model):
@@ -139,7 +133,6 @@ class Document(models.Model):
     #         self.file.delete()
     #     super().delete(*args, **kwargs)
 
-
 class DocumentStandard(models.Model):
     document = models.ForeignKey(
         Document,
@@ -164,7 +157,6 @@ class DocumentStandard(models.Model):
             models.Index(fields=['confidence_score']),
         ]
 
-
 class Exercise(models.Model):
     exercise_id = models.AutoField(primary_key=True)
 
@@ -180,7 +172,6 @@ class Exercise(models.Model):
 
     class Meta:
         db_table = 'exercises'
-
 
 class Example(models.Model):
     example_id = models.AutoField(primary_key=True)

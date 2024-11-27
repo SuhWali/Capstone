@@ -26,10 +26,7 @@ class ContentProcessor:
             with open(exercises_path, 'r') as f:
                 exercises_data = json.load(f)
 
-            # Clear existing relationships
-            # document.standards.clear()
-            # document.exercises.all().delete()
-            # document.examples.all().delete()
+     
 
             # Get all relevant clusters for the grade
             grade_clusters = Clusters.objects.filter(
@@ -40,10 +37,10 @@ class ContentProcessor:
             results = {
             'document_standards': self._process_concepts(document, concepts_data, grade_clusters),
             'exercises': self._process_exercises(document, exercises_data, grade_clusters),
-            # 'examples': self._process_examples(document, exercises_path, grade_clusters),
+            'examples': self._process_examples(document, exercises_path, grade_clusters),
             'metadata': {
                 'grade': document.domain.grade.gradename,
-                'domain': document.domain.name,
+                'domain': document.domain.domainname,
                 'analysis_date': timezone.now().isoformat()
             }
         }
@@ -75,7 +72,7 @@ class ContentProcessor:
                 if cluster_result.max_score >= self.threshold:
             
                     standards = Standards.objects.filter(clusterid=cluster)
-                    print(standards, "standard\n", cluster, "cluster ")
+                    # print(standards, "standard\n", cluster, "cluster ")
                     standard_matches = self.nli_processor.process_concept_against_standards(
                         concept['description'],
                         standards
@@ -115,29 +112,31 @@ class ContentProcessor:
         
         results = []
         for problem in content_data.get('problems', []):
-            if problem.get('type') != 'exercise':
+            if problem.get('type') not in ['exercise', 'problem']:
                 continue
 
             # Create exercise record
             exercise = Exercise.objects.create(
-                document=document,
+                # document=document,
                 type=problem['type'],
                 content=problem['content'],
-                context=problem.get('context', '')
+                context=problem['concept']
             )
+            # print("we are HERE")
+            # print(problem['concept'])
 
             # Process against clusters first
             cluster_matches = self.nli_processor.process_concept_against_clusters(
-                problem['content'],
+                problem['concept'],
                 clusters
             )
             
             # For matching clusters, process against standards
             for cluster, cluster_result in cluster_matches:
                 if cluster_result.max_score >= self.threshold:
-                    standards = Standards.objects.filter(cluster=cluster)
+                    standards = Standards.objects.filter(clusterid=cluster)
                     standard_matches = self.nli_processor.process_concept_against_standards(
-                        problem['content'],
+                        problem['concept'],
                         standards
                     )
                     
@@ -154,7 +153,7 @@ class ContentProcessor:
             results.append({
                 'exercise_id': exercise.exercise_id,
                 'content': problem['content'][:100] + '...',
-                'standards_count': exercise.standards.count()
+                # 'standards_count': exercise.standards.count()
             })
         
         return results
@@ -164,7 +163,7 @@ class ContentProcessor:
                          content_data: Dict,
                          clusters: List['Cluster']) -> List[Dict]:
         """Process examples using NLI and create relationships."""
-        from .models import Example, Standard, ExampleStandard
+        from ..models import Example, Standards, ExampleStandard
         
         results = []
         for problem in content_data.get('problems', []):

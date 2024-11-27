@@ -106,6 +106,7 @@ class NLIProcessor:
         results = []
         for standard in standards:
             result = self.process_pair(concept_description, standard.standarddescription)
+            print(result)
             if result.max_score >= self.threshold:
                 results.append((standard, result))
         

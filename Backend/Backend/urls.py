@@ -21,9 +21,11 @@ from django.conf.urls.static import static
 
 import authentication.urls
 import instructor.urls
+import course.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include(authentication.urls)),
-    path("instructor/", include(instructor.urls))
+    path("instructor/", include(instructor.urls)),
+    path("course/", include(course.urls))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

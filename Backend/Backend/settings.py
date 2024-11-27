@@ -59,7 +59,9 @@ THIRD_PARTY_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
-    'allauth.socialaccount'
+    'allauth.socialaccount',
+    'drf_yasg',
+
 
 ]
 
@@ -68,7 +70,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS =[
     'student',
     'authentication',
-    'instructor'
+    'instructor',
+    'course'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

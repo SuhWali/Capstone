@@ -14,7 +14,7 @@ import logging
 
 from . serializers import DocumentSerializer, GradeSerializer, DomainSerializer
 
-from .models import InstructorGrade, Domain, Document, Grade
+from .models import InstructorGrade, Domain, Document, Grade, Clusters, Domain
 
 from .utils.utils import DocumentAnalyzer
 
@@ -33,6 +33,21 @@ class InstructorViewSet(viewsets.ViewSet):
         grades = [ig.grade for ig in instructor_grades]
         serializer = GradeSerializer(grades, many=True)
         return Response(serializer.data)
+    
+    # @action(detail=False, methods=['GET'])
+    # def my_clusters(self, request):
+    #     grade_id = request.query_params.get('grade')
+    #     if not grade_id:
+    #         return Response({"error": "Grade ID is required"}, status=400)
+            
+    #     instructor_grades = InstructorGrade.objects.filter(instructor=request.user, grade_id=grade_id) # pylint: disable=E1101
+    #     if not instructor_grades.exists():
+    #         return Response({"error": "Not authorized for this grade"}, status=403)
+            
+    #     domains = Domain.objects.filter(grade=grade_id) # pylint: disable=E1101
+    #     serializer = DomainSerializer(domains, many=True)
+    #     return Response(serializer.data)
+    
 
     @action(detail=False, methods=['GET'])
     def my_domains(self, request):
