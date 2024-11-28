@@ -84,7 +84,8 @@ class DocumentAnalyzer:
                 json.dump(exercises_data, f, indent=2)
 
             self.logger.info(f"Analysis completed and saved to: {
-                             concepts_path} and {exercises_path}")
+                             concepts_path} and {exercises_path}"
+                             )
             return {
                 'concepts': concepts_data,
                 'exercises': exercises_data,
