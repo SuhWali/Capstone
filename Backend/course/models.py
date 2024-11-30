@@ -45,7 +45,6 @@ class Assessment(models.Model):
 class AssessmentExercise(models.Model):
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE, related_name='exercises')
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-    points = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1)])
     order = models.PositiveIntegerField()
 
     class Meta:

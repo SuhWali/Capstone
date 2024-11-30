@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { GradeSelectionComponent } from './components/grade-selection/grade-selection.component'
 import { DomainListComponent } from './components/domain-list/domain-list.component'
-import { DocumentManagementComponent } from './components/documents/document-management.component'
+import { DomainDetailComponent } from './components/domain-detail/domain-detail.component'
 
 
 const routes: Routes = [
@@ -21,8 +21,8 @@ const routes: Routes = [
           component: DomainListComponent
         },
           {
-            path: 'documents/:domainId',
-            component: DocumentManagementComponent
+            path: 'domain/:domainId',
+            component: DomainDetailComponent
           }
       ]
   }

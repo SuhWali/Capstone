@@ -1,0 +1,61 @@
+<div class="bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+        <h3 class="text-base font-semibold leading-6 text-gray-900">Generate Exercises</h3>
+        <form [formGroup]="generateForm" (ngSubmit)="onSubmit()" class="mt-5 space-y-4">
+            <!-- Number of Exercises -->
+            <div>
+                <label class="block text-sm font-medium text-gray-900">Assessment Title</label>
+                <input type="text" formControlName="title"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm"
+                    placeholder="Enter assessment title">
+            </div>
+            <div>
+              
+                <label class="block text-sm font-medium text-gray-900">Number of Exercises</label>
+                <input type="number" formControlName="num_exercises"
+                    class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary sm:text-sm">
+            </div>
+
+            <!-- Cluster Selection -->
+            <div>
+                <label class="block text-sm font-medium text-gray-900">Select Cluster</label>
+                <select formControlName="cluster_id"
+                    class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary sm:text-sm">
+                    <option value="">Select a cluster</option>
+                    <option *ngFor="let cluster of clusters$ | async" [value]="cluster.clusterid">
+                        {{cluster.clustername}}
+                    </option>
+                </select>
+            </div>
+
+            <!-- Standards Selection -->
+            <div *ngIf="generateForm.get('cluster_id')?.value">
+                <label class="block text-sm font-medium text-gray-900">Select Standard</label>
+                <select formControlName="standard_id"
+                    class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-primary sm:text-sm">
+                    <option value="">Select a standard</option>
+                    <option *ngFor="let standard of standards$ | async" [value]="standard.id">
+                        {{standard.standarddescription}}
+                    </option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end">
+                <button type="submit" [disabled]="generateForm.invalid || isGenerating"
+                    class="rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-dark disabled:opacity-50">
+                    <span *ngIf="isGenerating" class="flex items-center">
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        Generating...
+                    </span>
+                    <span *ngIf="!isGenerating">Generate Exercises</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -12,9 +12,10 @@ from random import choice
 
 import logging
 
-from . serializers import DocumentSerializer, GradeSerializer, DomainSerializer
+from . serializers import DocumentSerializer, GradeSerializer, DomainSerializer, ClusterSerializer, StandardSerializer
 
-from .models import InstructorGrade, Domain, Document, Grade, Clusters, Domain
+from .models import InstructorGrade, Domain, Document, Grade, Clusters, Domain, Standards
+from course.models import Course
 
 from .utils.utils import DocumentAnalyzer
 
@@ -27,27 +28,27 @@ User = get_user_model()
 class InstructorViewSet(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
+    # @action(detail=False, methods=['GET'])
+    # def my_grades(self, request):
+    #     instructor_grades = InstructorGrade.objects.filter(instructor=request.user) # pylint: disable=E1101
+    #     grades = [ig.grade for ig in instructor_grades]
+    #     serializer = GradeSerializer(grades, many=True)
+    #     return Response(serializer.data)
+
+
+
     @action(detail=False, methods=['GET'])
     def my_grades(self, request):
-        instructor_grades = InstructorGrade.objects.filter(instructor=request.user) # pylint: disable=E1101
-        grades = [ig.grade for ig in instructor_grades]
+        # Instead of querying InstructorGrade, we'll query Course
+        instructor_courses = Course.objects.filter(instructor=request.user)
+        # Extract the grades from the courses
+        grades = [course.grade for course in instructor_courses]
+        # Remove duplicates if an instructor teaches multiple courses in the same grade
+        grades = list(dict.fromkeys(grades))
         serializer = GradeSerializer(grades, many=True)
         return Response(serializer.data)
-    
-    # @action(detail=False, methods=['GET'])
-    # def my_clusters(self, request):
-    #     grade_id = request.query_params.get('grade')
-    #     if not grade_id:
-    #         return Response({"error": "Grade ID is required"}, status=400)
-            
-    #     instructor_grades = InstructorGrade.objects.filter(instructor=request.user, grade_id=grade_id) # pylint: disable=E1101
-    #     if not instructor_grades.exists():
-    #         return Response({"error": "Not authorized for this grade"}, status=403)
-            
-    #     domains = Domain.objects.filter(grade=grade_id) # pylint: disable=E1101
-    #     serializer = DomainSerializer(domains, many=True)
-    #     return Response(serializer.data)
-    
+
+
 
     @action(detail=False, methods=['GET'])
     def my_domains(self, request):
@@ -55,7 +56,7 @@ class InstructorViewSet(viewsets.ViewSet):
         if not grade_id:
             return Response({"error": "Grade ID is required"}, status=400)
             
-        instructor_grades = InstructorGrade.objects.filter(instructor=request.user, grade_id=grade_id) # pylint: disable=E1101
+        instructor_grades = Course.objects.filter(instructor=request.user, grade_id=grade_id) # pylint: disable=E1101
         if not instructor_grades.exists():
             return Response({"error": "Not authorized for this grade"}, status=403)
             
@@ -80,6 +81,36 @@ class InstructorViewSet(viewsets.ViewSet):
 
         # Serialize and return the domain data
         serializer = DomainSerializer(domain)
+        return Response(serializer.data)
+    
+
+    @action(detail=False, methods=['GET'])
+    def my_clusters(self, request):
+        domain_id = request.query_params.get('domain')
+        if not domain_id:
+            return Response({"error": "Domain ID is required"}, status=400)
+            
+        # instructor_grades = InstructorGrade.objects.filter(instructor=request.user, grade_id=grade_id) # pylint: disable=E1101
+        # if not instructor_grades.exists():
+        #     return Response({"error": "Not authorized for this grade"}, status=403)
+            
+        clusters = Clusters.objects.filter(domainid=domain_id) # pylint: disable=E1101
+        serializer = ClusterSerializer(clusters, many=True)
+        return Response(serializer.data)
+
+
+    @action(detail=False, methods=['GET'])
+    def my_standards(self, request):
+        cluster_id = request.query_params.get('cluster')
+        if not cluster_id:
+            return Response({"error": "Domain ID is required"}, status=400)
+            
+        # instructor_grades = InstructorGrade.objects.filter(instructor=request.user, grade_id=grade_id) # pylint: disable=E1101
+        # if not instructor_grades.exists():
+        #     return Response({"error": "Not authorized for this grade"}, status=403)
+            
+        clusters = Standards.objects.filter(clusterid=cluster_id) # pylint: disable=E1101
+        serializer = StandardSerializer(clusters, many=True)
         return Response(serializer.data)
 
 

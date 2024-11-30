@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InstructorService } from '../../services/instructor.service';
@@ -12,11 +12,12 @@ import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 })
 
 export class DocumentManagementComponent implements OnInit {
+    @Input() domainId!: number;
     uploadForm: FormGroup;
     isUploading = false;
     documents$ = new BehaviorSubject<Document[]>([]);
     currentDomain$: Observable<Domain> = new Observable();
-    private domainId: number = 0;
+    // private domainId: number = 0;
 
 
     constructor(
@@ -43,7 +44,6 @@ export class DocumentManagementComponent implements OnInit {
             this.currentDomain$ = new BehaviorSubject(domain);
             this.loadDocuments();
         });
-        console.log(this.domainId, "here")
     }
 
     onFileChange(event: Event) {

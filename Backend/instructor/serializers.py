@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Grade, Domain, Document, InstructorGrade
+from .models import Grade, Domain, Clusters, Standards, Document, InstructorGrade
 
 
 class GradeSerializer(serializers.ModelSerializer):
@@ -17,6 +17,23 @@ class DomainSerializer(serializers.ModelSerializer):
         model = Domain
         fields = ['domainid', 'grade',
                 'grade_name', 'domain_abb', 'domainname']
+        
+
+
+class ClusterSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Clusters
+        fields = '__all__'
+
+
+
+class StandardSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Standards
+        fields = '__all__'
+
 
 
 class DocumentSerializer(serializers.ModelSerializer):

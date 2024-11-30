@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { Grade, Domain, Document } from '../models/instructor.models';
+import { Grade, Domain, Document, Cluster, Standard, AssessmentCreateRequest, Assessment, Course } from '../models/instructor.models';
 
 @Injectable()
 export class InstructorService {
@@ -10,21 +10,25 @@ export class InstructorService {
     private selectedGrade = new BehaviorSubject<Grade | null>(null);
     selectedGrade$ = this.selectedGrade.asObservable();
 
+    private selectedCourse = new BehaviorSubject<Grade | null>(null);
+    selectedcourse$ = this.selectedCourse.asObservable();
+
     constructor(private http: HttpClient) { }
 
     setSelectedGrade(grade: Grade) {
         this.selectedGrade.next(grade);
     }
 
-
-
     getSelectedGrade(): Grade | null {
         return this.selectedGrade.getValue();
     }
 
-
     getMyGrades(): Observable<Grade[]> {
         return this.http.get<Grade[]>(`${this.apiUrl}/instructor/instructor/my_grades/`);
+    }
+
+    getMyCourses(): Observable<Course[]> {
+        return this.http.get<Course[]>(`${this.apiUrl}/course/course/my_courses/`);
     }
 
     getDomains(gradeId: number): Observable<Domain[]> {
@@ -48,4 +52,21 @@ export class InstructorService {
     deleteDocument(id: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/instructor/documents/${id}/`);
     }
+
+    getClusters(domainId: number): Observable<Cluster[]> {
+        return this.http.get<Cluster[]>(`${this.apiUrl}/instructor/instructor/my_clusters/`, {
+            params: { domain: domainId.toString() }
+        });
+    }
+
+    getStandards(clusterId: number): Observable<Standard[]> {
+        return this.http.get<Standard[]>(`${this.apiUrl}/instructor/instructor/my_standards/`, {
+            params: { cluster: clusterId.toString() }
+        });
+    }
+
+    generateAssessment(data: AssessmentCreateRequest): Observable<Assessment> {
+        return this.http.post<Assessment>(`${this.apiUrl}/course/assessments/`, data);
+    }
+
 }

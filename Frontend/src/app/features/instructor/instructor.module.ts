@@ -11,14 +11,18 @@ import { DocumentManagementComponent } from './components/documents/document-man
 import { InstructorRoutingModule } from './instructor-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { InstructorService } from '../instructor/services/instructor.service'
+import { InstructorService } from '../instructor/services/instructor.service';
+import { ExerciseComponent } from './components/exercise/exercise.component';
+import { DomainDetailComponent } from './components/domain-detail/domain-detail.component'
 
 @NgModule({
   declarations: [
     DashboardComponent,
     GradeSelectionComponent,
     DomainListComponent,
-    DocumentManagementComponent
+    DocumentManagementComponent,
+    ExerciseComponent,
+    DomainDetailComponent
 
   ],
   imports: [

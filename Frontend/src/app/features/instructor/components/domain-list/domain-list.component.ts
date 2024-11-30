@@ -51,6 +51,6 @@ export class DomainListComponent implements  OnDestroy {
     }
 
     selectDomain(domain: Domain) {
-        this.router.navigate(['/instructor/documents', domain.domainid]);
+        this.router.navigate(['/instructor/domain', domain.domainid]);
     }
 }
