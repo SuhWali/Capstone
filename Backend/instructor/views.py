@@ -21,6 +21,8 @@ from .utils.utils import DocumentAnalyzer
 
 from .utils.content_processor import ContentProcessor
 
+from course.models import Course
+
 
 
 User = get_user_model()
@@ -47,8 +49,6 @@ class InstructorViewSet(viewsets.ViewSet):
         grades = list(dict.fromkeys(grades))
         serializer = GradeSerializer(grades, many=True)
         return Response(serializer.data)
-
-
 
     @action(detail=False, methods=['GET'])
     def my_domains(self, request):
@@ -114,8 +114,6 @@ class InstructorViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
 
-
-
 logger = logging.getLogger(__name__)
 
 class DocumentViewSet(viewsets.ModelViewSet):
@@ -126,12 +124,14 @@ class DocumentViewSet(viewsets.ModelViewSet):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.analyzer = DocumentAnalyzer()
+        self.process_nli = ContentProcessor()
+
 
     def get_queryset(self):
         if self.request.user.is_superuser:
             return Document.objects.all()   # pylint: disable=E1101
         
-        instructor_grades = InstructorGrade.objects.filter( # pylint: disable=E1101
+        instructor_grades = Course.objects.filter( # pylint: disable=E1101
             instructor=self.request.user
         ).values_list('grade', flat=True)
         
@@ -149,6 +149,10 @@ class DocumentViewSet(viewsets.ModelViewSet):
                 logger.info(f"Starting analysis for document: {document.file.name}")
                 self.analyzer.analyze_document(document)
                 logger.info(f"Analysis completed for document: {document.file.name}")
+                
+                logger.info(f"NLI analysis for document: {document.file.name}")
+                self.process_nli.process_document_content(document)
+                logger.info(f"NLI completed for document: {document.file.name}")
             except Exception as e:
                 logger.error(f"Error during document analysis: {str(e)}")
                 # Note: We don't raise the exception here to avoid failing the upload
@@ -298,9 +302,6 @@ class DocumentViewSet(viewsets.ModelViewSet):
             )
         
 
-
-
-
     @action(detail=True, methods=['POST'])
     def process_content(self, request, pk=None):
         """Process document content and populate related tables."""
@@ -353,7 +354,6 @@ class DocumentViewSet(viewsets.ModelViewSet):
         }
         
         return Response(summary)
-
 
 
 class GradeAssignmentViewSet(viewsets.ViewSet):

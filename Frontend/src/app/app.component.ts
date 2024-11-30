@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as AuthActions from './core/store/auth/auth.actions';
 

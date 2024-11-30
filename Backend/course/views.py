@@ -18,7 +18,6 @@ class AssessmentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     
     def get_queryset(self):
-        
         return Assessment.objects.filter(created_by=self.request.user)
 
     def perform_create(self, serializer):

@@ -61,8 +61,7 @@ export interface Cluster {
 }
 
 export interface Standard {
-    id: number;
     standardid: string;
     standarddescription: string;
-    cluster: number;
+    clusterid: number;
 }

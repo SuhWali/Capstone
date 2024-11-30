@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
-from .models import Grade, Domain, Clusters, Standards, Document, InstructorGrade
+from .models import Grade, Domain, Clusters, Standards, Document, InstructorGrade, Exercise
 
+from course.models import Course
 
 class GradeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -74,12 +75,19 @@ class DocumentSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if not user.is_superuser:  # Skip validation for superusers
             # Check if the instructor is assigned to this domain's grade
-            has_permission = InstructorGrade.objects.filter(    #  pylint: disable=E1101
+            has_permission = Course.objects.filter(    #  pylint: disable=E1101
                 instructor=user,
-                grade=value.gradeid
+                grade=value.grade_id
             ).exists()
             if not has_permission:
                 raise serializers.ValidationError(
                     "You don't have permission to upload documents to this domain"
                 )
         return value
+
+
+
+class ExerciseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exercise
+        fields = '__all__'

@@ -1,0 +1,233 @@
+<!-- domain-detail.component.html -->
+
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h1 class="text-2xl font-semibold text-gray-900">
+                    Course Materials
+                </h1>
+                <p class="mt-1 text-sm text-gray-600">
+                    {{(selectedCourse$ | async)?.course?.name}} |
+                    {{(selectedCourse$ | async)?.course?.grade_name}}
+                </p>
+            </div>
+            <button (click)="goBack()"
+                class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                Back to Modules
+            </button>
+        </div>
+
+        <!-- Main Tabs -->
+        <div class="border-b border-gray-200 mb-6">
+            <nav class="-mb-px flex space-x-8">
+                <button
+                    [ngClass]="{'border-primary text-primary': activeTab === 'documents',
+                              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeTab !== 'documents'}"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                    (click)="setActiveTab('documents')">
+                    Documents
+                </button>
+                <button
+                    [ngClass]="{'border-primary text-primary': activeTab === 'exercises',
+                              'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': activeTab !== 'exercises'}"
+                    class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                    (click)="setActiveTab('exercises')">
+                    Exercises
+                </button>
+            </nav>
+        </div>
+
+        <!-- Documents Tab Content -->
+        <div *ngIf="activeTab === 'documents'">
+            <div class="bg-white shadow overflow-hidden sm:rounded-md">
+                <ul class="divide-y divide-gray-200">
+                    <li *ngFor="let document of documents$ | async">
+                        <div class="px-4 py-4 sm:px-6 hover:bg-gray-50 cursor-pointer"
+                            (click)="downloadDocument(document)">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-sm font-medium text-primary">
+                                            {{document.title}}
+                                        </h4>
+                                        <p *ngIf="document.description" class="mt-1 text-sm text-gray-600">
+                                            {{document.description}}
+                                        </p>
+                                        <p class="mt-1 text-xs text-gray-500">
+                                            Uploaded {{document.upload_date | date:'medium'}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Exercises Tab Content -->
+        <div *ngIf="activeTab === 'exercises'" class="space-y-6">
+            <!-- Assessments List -->
+            <div *ngIf="!selectedAssessment" class="bg-white shadow overflow-hidden sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">Available Assessments</h3>
+                </div>
+                <ul class="divide-y divide-gray-200">
+                    <li *ngFor="let assessment of assessments$ | async" (click)="selectAssessment(assessment)"
+                        class="px-4 py-4 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="text-sm font-medium text-primary">{{assessment.title}}</h4>
+                                <p class="mt-1 text-xs text-gray-500">
+                                    Created {{assessment.created_at | date}}
+                                </p>
+                            </div>
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Selected Assessment Exercises -->
+            <div *ngIf="selectedAssessment" class="space-y-6">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-medium text-gray-900">{{selectedAssessment.title}}</h3>
+                    <button (click)="selectedAssessment = null" class="text-sm text-gray-600 hover:text-gray-900">
+                        Back to Assessments
+                    </button>
+                </div>
+
+                <div *ngIf="exercises$ | async as exercises" class="space-y-8">
+                    <div *ngFor="let exerciseItem of exercises" class="bg-white shadow sm:rounded-lg overflow-hidden">
+                        <!-- Exercise Content -->
+                        <div class="p-6 space-y-4">
+                            <div class="text-sm font-medium text-gray-500">
+                                Exercise {{exerciseItem.order}}
+                            </div>
+                            <div class="exercise-content p-4 bg-gray-50 rounded-md">
+                                <div [innerHtml]="renderLatex(exerciseItem.exercise.content)"></div>
+                            </div>
+
+                            <!-- Answer Input -->
+                            <div class="mt-4">
+                                <label [for]="'answer-' + exerciseItem.exercise.exercise_id" class="form-label">
+                                    Your Answer
+                                </label>
+                                <textarea [id]="'answer-' + exerciseItem.exercise.exercise_id" class="form-input mt-1" rows="3"
+                                    [value]="exerciseAnswers[exerciseItem.exercise.exercise_id] || ''"
+    
+                                    (input)="onAnswerChange(exerciseItem.exercise.exercise_id, $event)"
+
+
+
+
+                                    placeholder="Enter your answer here...">
+                                </textarea>
+                            </div>
+                        </div>
+        
+                        <!-- Recommendations Section -->
+                        <div *ngIf="exerciseRecommendations[exerciseItem.exercise.exercise_id] as recs"
+                            class="border-t border-gray-200 bg-gray-50 p-6">
+                            <h4 class="text-sm font-medium text-gray-900 mb-4">Recommendations</h4>
+
+                            <!-- Recommendations Tabs -->
+                            <div class="border-b border-gray-200">
+                                <nav class="-mb-px flex space-x-8">
+                                    <a class="cursor-pointer whitespace-nowrap py-4 px-1 border-b-2"
+                                        [class.border-primary]="activeRecommendationTab === 'exercises'"
+                                        [class.text-primary]="activeRecommendationTab === 'exercises'"
+                                        [class.border-transparent]="activeRecommendationTab !== 'exercises'"
+                                        [class.text-gray-500]="activeRecommendationTab !== 'exercises'"
+                                        (click)="setActiveRecommendationTab('exercises')">
+                                        Similar Exercises
+                                    </a>
+                                    <a class="cursor-pointer whitespace-nowrap py-4 px-1 border-b-2"
+                                        [class.border-primary]="activeRecommendationTab === 'examples'"
+                                        [class.text-primary]="activeRecommendationTab === 'examples'"
+                                        [class.border-transparent]="activeRecommendationTab !== 'examples'"
+                                        [class.text-gray-500]="activeRecommendationTab !== 'examples'"
+                                        (click)="setActiveRecommendationTab('examples')">
+                                        Similar Examples
+                                    </a>
+                                    <a class="cursor-pointer whitespace-nowrap py-4 px-1 border-b-2"
+                                        [class.border-primary]="activeRecommendationTab === 'documents'"
+                                        [class.text-primary]="activeRecommendationTab === 'documents'"
+                                        [class.border-transparent]="activeRecommendationTab !== 'documents'"
+                                        [class.text-gray-500]="activeRecommendationTab !== 'documents'"
+                                        (click)="setActiveRecommendationTab('documents')">
+                                        Related Documents
+                                    </a>
+                                </nav>
+                            </div>
+
+                            <!-- Recommendations Content -->
+                            <div class="mt-4">
+                                <!-- Similar Exercises -->
+                                <div *ngIf="activeRecommendationTab === 'exercises'" class="space-y-3">
+                                    <div *ngFor="let rec of recs.exercises"
+                                        (click)="navigateToContent('exercise', rec.id)"
+                                        class="p-3 bg-white rounded-md shadow-sm hover:shadow cursor-pointer">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <h5 class="text-sm font-medium text-gray-900">{{rec.title}}</h5>
+                                                <p class="mt-1 text-sm text-gray-500 line-clamp-2">{{rec.content}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Similar Examples -->
+                                <div *ngIf="activeRecommendationTab === 'examples'" class="space-y-3">
+                                    <div *ngFor="let rec of recs.examples"
+                                        (click)="navigateToContent('example', rec.id)"
+                                        class="p-3 bg-white rounded-md shadow-sm hover:shadow cursor-pointer">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <h5 class="text-sm font-medium text-gray-900">{{rec.title}}</h5>
+                                                <p class="mt-1 text-sm text-gray-500 line-clamp-2">{{rec.content}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Related Documents -->
+                                <div *ngIf="activeRecommendationTab === 'documents'" class="space-y-3">
+                                    <div *ngFor="let rec of recs.documents"
+                                        (click)="navigateToContent('document', rec.id)"
+                                        class="p-3 bg-white rounded-md shadow-sm hover:shadow cursor-pointer">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <h5 class="text-sm font-medium text-gray-900">{{rec.title}}</h5>
+                                                <p class="mt-1 text-sm text-gray-500 line-clamp-2">{{rec.content}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

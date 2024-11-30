@@ -41,7 +41,7 @@ export class ExerciseComponent {
           this.courseId = courses[0].id;
           this.generateForm.patchValue({ 
             course: this.courseId,
-            domain_id: this.domainId 
+            domain_id: this.domainId
           });
         }
       })

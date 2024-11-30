@@ -175,7 +175,6 @@ class Exercise(models.Model):
 
 class Example(models.Model):
     example_id = models.AutoField(primary_key=True)
- 
     type = models.CharField(max_length=50)
     content = models.TextField()
     context = models.TextField(null=True, blank=True)

@@ -1,0 +1,29 @@
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+        <h1 class="text-2xl font-semibold text-gray-900 mb-6">My Enrolled Courses</h1>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div *ngFor="let enrollment of enrolledCourses$ | async" (click)="selectCourse(enrollment)"
+                class="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm hover:border-primary hover:ring-1 hover:ring-primary cursor-pointer transition-all duration-200">
+                <div class="flex items-center space-x-3">
+                    <div class="flex-shrink-0">
+                        <div class="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
+                            <span class="text-white font-semibold">{{enrollment.course.name[0]}}</span>
+                        </div>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-sm font-medium text-gray-900">{{enrollment.course.name}}</p>
+                        <p class="truncate text-sm text-gray-500">
+                            {{enrollment.course.grade_name}} | {{enrollment.course.instructor_name}}
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

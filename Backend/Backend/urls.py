@@ -22,10 +22,13 @@ from django.conf.urls.static import static
 import authentication.urls
 import instructor.urls
 import course.urls
+import student.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include(authentication.urls)),
     path("instructor/", include(instructor.urls)),
-    path("course/", include(course.urls))
+    path("course/", include(course.urls)),
+    path("student/", include(student.urls))
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
