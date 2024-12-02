@@ -1,0 +1,56 @@
+{
+  "concepts": [
+    {
+      "name": "Square Root Functions",
+      "description": "Exploring square root functions, their domains, ranges, and graphing characteristics."
+    },
+    {
+      "name": "Shifting and Stretching Graphs",
+      "description": "Techniques for shifting and stretching square root function graphs vertically, horizontally, and proportionally."
+    },
+    {
+      "name": "Radical Expressions",
+      "description": "Understanding and simplifying radical expressions, including product and quotient properties of radicals."
+    },
+    {
+      "name": "Solving Radical Equations",
+      "description": "Techniques for solving equations involving radicals, including identifying extraneous solutions."
+    },
+    {
+      "name": "Real-World Applications of Radicals",
+      "description": "Applying radical expressions and equations to problems in geometry, physics, and other real-world scenarios."
+    },
+    {
+      "name": "Pythagorean Theorem",
+      "description": "Using the Pythagorean theorem and its converse to solve problems involving right triangles and distances."
+    },
+    {
+      "name": "Distance Formula",
+      "description": "Deriving and using the formula to calculate the distance between two points in the coordinate plane."
+    },
+    {
+      "name": "Midpoint Formula",
+      "description": "Calculating the midpoint of a line segment using the average of its endpoints' coordinates."
+    },
+    {
+      "name": "Measures of Central Tendency",
+      "description": "Exploring mean, median, and mode as tools for summarizing data sets."
+    },
+    {
+      "name": "Measures of Dispersion",
+      "description": "Using range, variance, and standard deviation to describe the spread of data in a set."
+    },
+    {
+      "name": "Histograms and Data Visualization",
+      "description": "Creating and interpreting stem-and-leaf plots and histograms to analyze data distributions."
+    },
+    {
+      "name": "Real-World Statistics Applications",
+      "description": "Applying statistical methods to analyze and interpret real-world data in various contexts."
+    },
+    {
+      "name": "Graphing Calculators for Data",
+      "description": "Using graphing calculators to create histograms and analyze statistical data efficiently."
+    }
+  ]
+}

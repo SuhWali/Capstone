@@ -1,0 +1,60 @@
+{
+  "concepts": [
+    {
+      "name": "Real Numbers",
+      "description": "A set of numbers including integers, fractions, and irrational numbers, represented on the number line."
+    },
+    {
+      "name": "Integers",
+      "description": "Counting numbers, their negatives, and zero, represented without fractions or decimals."
+    },
+    {
+      "name": "Rational Numbers",
+      "description": "Numbers expressed as the ratio of two integers, including fractions and finite or repeating decimals."
+    },
+    {
+      "name": "Graphing Integers",
+      "description": "Plotting integers on the number line to visually compare their magnitudes."
+    },
+    {
+      "name": "Absolute Value",
+      "description": "The distance of a number from zero on the number line, always non-negative."
+    },
+    {
+      "name": "Addition and Subtraction of Rational Numbers",
+      "description": "Combining or separating fractions using common denominators, respecting properties like the inverse relationship of addition and subtraction."
+    },
+    {
+      "name": "Multiplication and Division of Rational Numbers",
+      "description": "Combining rational numbers by multiplying numerators and denominators, or dividing using reciprocal rules."
+    },
+    {
+      "name": "Properties of Arithmetic",
+      "description": "Rules including commutative, associative, distributive, and identity properties that simplify operations on numbers."
+    },
+    {
+      "name": "Square Roots",
+      "description": "Finding a number that, when multiplied by itself, equals a given number; involves integers, perfect squares, and irrational results."
+    },
+    {
+      "name": "Problem-Solving Strategies",
+      "description": "Methods such as guess and check, and working backwards, to solve real-world mathematical problems."
+    },
+    {
+      "name": "Real-World Applications of Rational Numbers",
+      "description": "Using rational numbers and arithmetic operations to model and solve practical problems, like calculating distances or costs."
+    },
+    {
+      "name": "Classification of Numbers",
+      "description": "Organizing numbers into categories like integers, rational, or irrational, based on their properties."
+    },
+    {
+      "name": "Additive and Multiplicative Inverses",
+      "description": "Concepts where numbers combined with their inverse (additive: -a, multiplicative: 1/a) result in identity elements (0 or 1)."
+    },
+    {
+      "name": "Distributive Property",
+      "description": "A property allowing the multiplication of a term across a sum or difference inside parentheses."
+    }
+  ]
+}

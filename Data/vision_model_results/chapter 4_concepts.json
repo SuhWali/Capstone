@@ -1,0 +1,64 @@
+{
+  "concepts": [
+    {
+      "name": "The Coordinate Plane",
+      "description": "A two-dimensional space defined by a horizontal axis (x-axis) and a vertical axis (y-axis), divided into four quadrants, used to graph equations and functions."
+    },
+    {
+      "name": "Identifying Coordinates",
+      "description": "Finding the x and y values of a point on the coordinate plane, written as ordered pairs (x, y)."
+    },
+    {
+      "name": "Plotting Points",
+      "description": "Placing points on the coordinate plane based on their coordinates to visually represent data or relations."
+    },
+    {
+      "name": "Graphing Functions from Tables",
+      "description": "Using a table of input-output pairs to plot points and create a graph representing a function."
+    },
+    {
+      "name": "Graphing Functions from Rules",
+      "description": "Plotting a function using a given formula by calculating values for points and connecting them to form the graph."
+    },
+    {
+      "name": "Discrete and Continuous Functions",
+      "description": "Understanding the distinction between functions defined for specific inputs (discrete) and those defined for all real numbers (continuous)."
+    },
+    {
+      "name": "Graphs of Linear Equations",
+      "description": "Representing linear relationships as straight lines on a graph, typically characterized by equations in slope-intercept form (y = mx + b)."
+    },
+    {
+      "name": "Horizontal and Vertical Lines",
+      "description": "Special linear graphs where horizontal lines have equations y = c and vertical lines have equations x = c, where c is a constant."
+    },
+    {
+      "name": "Finding Intercepts",
+      "description": "Determining where a graph crosses the x-axis (x-intercept) and y-axis (y-intercept)."
+    },
+    {
+      "name": "Slope and Rate of Change",
+      "description": "Calculating the steepness of a line or the rate at which one variable changes relative to another using the formula m = (y2 - y1) / (x2 - x1)."
+    },
+    {
+      "name": "Interpreting Graphs",
+      "description": "Analyzing graphs to extract meaningful information, such as rates of change, intercepts, or trends in data."
+    },
+    {
+      "name": "Direct Variation",
+      "description": "A relationship where one variable is directly proportional to another, represented by equations of the form y = kx."
+    },
+    {
+      "name": "Slope-Intercept Form",
+      "description": "A way of writing linear equations as y = mx + b, where m is the slope and b is the y-intercept."
+    },
+    {
+      "name": "Problem-Solving with Graphs",
+      "description": "Using graphs to model and solve real-world problems by interpreting relationships between variables."
+    },
+    {
+      "name": "Arithmetic Progressions and Linear Functions",
+      "description": "Recognizing the connection between arithmetic sequences and the patterns in linear functions, which increase by a fixed amount each step."
+    }
+  ]
+}

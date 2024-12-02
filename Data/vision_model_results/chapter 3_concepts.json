@@ -1,0 +1,48 @@
+{
+  "concepts": [
+    {
+      "name": "Solving One-Step Equations",
+      "description": "Techniques for solving linear equations using addition, subtraction, multiplication, or division to isolate the variable."
+    },
+    {
+      "name": "Linear Equations",
+      "description": "Equations in which each term is either a constant or the product of a constant and a single variable."
+    },
+    {
+      "name": "Two-Step Equations",
+      "description": "Equations that require two operations to isolate the variable, often involving combining like terms."
+    },
+    {
+      "name": "Solving Multi-Step Equations",
+      "description": "Combining multiple algebraic operations such as distributing and collecting like terms to solve equations."
+    },
+    {
+      "name": "Equations with Variables on Both Sides",
+      "description": "Techniques to solve equations where variables appear on both sides by simplifying and isolating the variable."
+    },
+    {
+      "name": "Real-World Applications of Equations",
+      "description": "Modeling and solving practical problems, such as calculating costs, distances, and rates using linear equations."
+    },
+    {
+      "name": "Ratios and Proportions",
+      "description": "Using ratios to compare quantities and solve problems involving proportional relationships."
+    },
+    {
+      "name": "Cross Products",
+      "description": "A method to solve proportions by multiplying across the equal sign to eliminate fractions."
+    },
+    {
+      "name": "Using Scale and Indirect Measurement",
+      "description": "Applying geometric similarity and scale to measure real-world objects indirectly."
+    },
+    {
+      "name": "Percent Problems",
+      "description": "Calculating percentages, percent changes, and solving related real-world problems like discounts and markups."
+    },
+    {
+      "name": "Problem-Solving Strategies",
+      "description": "Using structured approaches such as writing equations and checking results to solve mathematical problems."
+    }
+  ]
+}

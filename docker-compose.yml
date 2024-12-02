@@ -1,5 +1,4 @@
 # docker-compose.yml
-
 version: '3.8'
 
 services:
@@ -17,8 +16,7 @@ services:
       - backend
     
     # command: ["npm", "run", "start", "--", "--host", "0.0.0.0"]
-    
-
+  
   backend:
     build:
       context: ./backend

@@ -1,0 +1,56 @@
+{
+  "concepts": [
+    {
+      "name": "Linear Systems of Equations",
+      "description": "A collection of two or more linear equations involving the same set of variables, solved together to find where their graphs intersect."
+    },
+    {
+      "name": "Graphical Solution of Systems",
+      "description": "Finding the solution to a system of equations by graphing each equation and identifying the intersection point(s)."
+    },
+    {
+      "name": "Substitution Method",
+      "description": "A technique for solving systems of equations by solving one equation for a variable and substituting this expression into another equation."
+    },
+    {
+      "name": "Elimination Method",
+      "description": "A technique for solving systems of equations by adding or subtracting equations to eliminate one variable and solve for the other."
+    },
+    {
+      "name": "Applications of Systems",
+      "description": "Using systems of equations to solve real-world problems like cost comparison, motion problems, and mixture problems."
+    },
+    {
+      "name": "Graphing Inequalities",
+      "description": "Graphing the solution set of linear inequalities by shading the appropriate regions on the coordinate plane."
+    },
+    {
+      "name": "Systems of Inequalities",
+      "description": "Solving multiple inequalities together by finding the overlapping shaded region that satisfies all constraints."
+    },
+    {
+      "name": "Linear Programming",
+      "description": "A method of optimizing a linear objective function subject to a set of linear constraints, often involving inequalities."
+    },
+    {
+      "name": "Special Types of Systems",
+      "description": "Identifying systems as consistent, inconsistent, or dependent based on the relationship between the equations' graphs."
+    },
+    {
+      "name": "Optimization Problems",
+      "description": "Maximizing or minimizing an objective function under a set of constraints, often using vertices of the feasibility region."
+    },
+    {
+      "name": "Bounded and Unbounded Solutions",
+      "description": "Classifying solution regions of inequalities as bounded (finite area) or unbounded (extends infinitely)."
+    },
+    {
+      "name": "Real-World Linear Programming",
+      "description": "Applying linear programming techniques to practical scenarios like investment optimization and resource allocation."
+    },
+    {
+      "name": "Intersection Points in Systems",
+      "description": "Calculating points where equations intersect as solutions to systems, especially in optimization and application contexts."
+    }
+  ]
+}

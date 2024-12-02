@@ -1,0 +1,60 @@
+{
+  "concepts": [
+    {
+      "name": "Exponential Functions",
+      "description": "Mathematical expressions where the variable is an exponent, modeling rapid growth or decay."
+    },
+    {
+      "name": "Exponent Properties",
+      "description": "Rules governing the manipulation of exponents, including product, quotient, and power rules."
+    },
+    {
+      "name": "Product of Powers Property",
+      "description": "States that when multiplying two powers with the same base, you add their exponents."
+    },
+    {
+      "name": "Power of a Product Property",
+      "description": "When raising a product to a power, the exponent applies to each factor inside the parentheses."
+    },
+    {
+      "name": "Quotient of Powers Property",
+      "description": "When dividing two powers with the same base, subtract the exponents."
+    },
+    {
+      "name": "Zero and Negative Exponents",
+      "description": "Defines zero exponents as always equal to 1, and negative exponents as reciprocal powers."
+    },
+    {
+      "name": "Fractional Exponents",
+      "description": "Represents roots, where fractional exponents such as 1/2 signify square roots."
+    },
+    {
+      "name": "Scientific Notation",
+      "description": "A way to express very large or small numbers using powers of ten, simplifying calculations and representation."
+    },
+    {
+      "name": "Exponential Growth Functions",
+      "description": "Functions that increase rapidly by a consistent multiplicative factor over equal intervals."
+    },
+    {
+      "name": "Exponential Decay Functions",
+      "description": "Functions that decrease by a consistent multiplicative factor over equal intervals, approaching zero but never reaching it."
+    },
+    {
+      "name": "Geometric Sequences",
+      "description": "A sequence of numbers where each term is obtained by multiplying the previous term by a constant ratio."
+    },
+    {
+      "name": "Real-World Applications of Exponents",
+      "description": "Includes problems involving population growth, radioactive decay, financial interest, and more."
+    },
+    {
+      "name": "Problem-Solving Strategies for Exponential Functions",
+      "description": "Involves identifying patterns, creating tables, and using formulas to solve growth, decay, and geometric sequence problems."
+    },
+    {
+      "name": "Exponential Word Problems",
+      "description": "Applications of exponential functions in real life, such as compound interest, population changes, and decay scenarios."
+    }
+  ]
+}

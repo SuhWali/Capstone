@@ -1,0 +1,60 @@
+{
+  "concepts": [
+    {
+      "name": "Inverse Variation",
+      "description": "A type of relationship where one variable increases as the other decreases, modeled by equations such as y = k/x."
+    },
+    {
+      "name": "Graphing Inverse Variation",
+      "description": "Graphing relationships that exhibit inverse variation, showing hyperbolic curves with asymptotes."
+    },
+    {
+      "name": "Rational Functions",
+      "description": "Functions represented as ratios of polynomials, characterized by specific behaviors like asymptotes and excluded values."
+    },
+    {
+      "name": "Asymptotes in Graphs",
+      "description": "Understanding vertical, horizontal, and slant asymptotes in rational function graphs and their significance."
+    },
+    {
+      "name": "Simplifying Rational Expressions",
+      "description": "Reducing rational expressions to their simplest form by factoring and canceling common terms."
+    },
+    {
+      "name": "Excluded Values",
+      "description": "Values that make the denominator of a rational expression zero, which must be excluded from the domain."
+    },
+    {
+      "name": "Division of Polynomials",
+      "description": "Performing polynomial long division and synthetic division to simplify rational functions."
+    },
+    {
+      "name": "Multiplication and Division of Rational Expressions",
+      "description": "Multiplying and dividing rational expressions by factoring and canceling common factors."
+    },
+    {
+      "name": "Addition and Subtraction of Rational Expressions",
+      "description": "Combining rational expressions with like and unlike denominators by finding the least common denominator."
+    },
+    {
+      "name": "Solving Rational Equations",
+      "description": "Eliminating denominators to solve equations involving rational expressions using methods like cross-multiplication."
+    },
+    {
+      "name": "Real-World Applications of Rational Functions",
+      "description": "Using rational equations to model and solve problems in physics, engineering, and economics."
+    },
+    {
+      "name": "Statistical Sampling Methods",
+      "description": "Different sampling techniques like random and stratified sampling to collect data for statistical studies."
+    },
+    {
+      "name": "Biased Samples and Questions",
+      "description": "Identifying and avoiding bias in sample selection and survey question phrasing to ensure accurate results."
+    },
+    {
+      "name": "Survey Design and Implementation",
+      "description": "Steps to create effective surveys, including determining goals, selecting sample populations, and analyzing data."
+    }
+  ]
+}

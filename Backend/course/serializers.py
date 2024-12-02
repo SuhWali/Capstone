@@ -145,4 +145,3 @@ class AssessmentSerializerSecond(serializers.ModelSerializer):
         fields = ['id', 'title', 'course', 'created_by', 'is_generated', 
                  'created_at', 'updated_at']
 
-# views.py

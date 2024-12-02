@@ -1,0 +1,64 @@
+{
+  "concepts": [
+    {
+      "name": "Graphs of Quadratic Functions",
+      "description": "Exploring parabolas, their characteristics, and how they are influenced by coefficients in quadratic equations."
+    },
+    {
+      "name": "Vertex and Axis of Symmetry",
+      "description": "Identifying the vertex as the highest or lowest point of a parabola and its symmetrical nature about a vertical line."
+    },
+    {
+      "name": "Graphing Quadratic Functions in Intercept Form",
+      "description": "Using the intercept form of quadratic functions to find roots and graph parabolas more efficiently."
+    },
+    {
+      "name": "Solving Quadratic Equations by Graphing",
+      "description": "Using graphs to identify solutions (roots) of quadratic equations and their relation to the x-intercepts."
+    },
+    {
+      "name": "Quadratic Equations by Square Roots",
+      "description": "Isolating the squared term and taking square roots to solve quadratic equations, including handling perfect squares."
+    },
+    {
+      "name": "Completing the Square",
+      "description": "A method for rewriting quadratic expressions into a perfect square trinomial form to solve or graph quadratic equations."
+    },
+    {
+      "name": "Vertex Form of Quadratic Functions",
+      "description": "Rewriting quadratic functions in vertex form to directly identify the vertex and simplify graphing."
+    },
+    {
+      "name": "Solving Quadratic Equations Using the Quadratic Formula",
+      "description": "Applying the quadratic formula to find the roots of quadratic equations, including understanding the discriminant."
+    },
+    {
+      "name": "The Discriminant",
+      "description": "Using the discriminant to determine the nature and number of solutions for a quadratic equation (real, double, or complex)."
+    },
+    {
+      "name": "Linear, Exponential, and Quadratic Models",
+      "description": "Distinguishing between linear, exponential, and quadratic relationships using differences and ratios in data."
+    },
+    {
+      "name": "Mathematical Modeling",
+      "description": "Applying functions to describe, analyze, and predict real-world phenomena through models based on quadratic equations."
+    },
+    {
+      "name": "Optimization with Quadratic Functions",
+      "description": "Solving real-world problems involving maxima or minima using quadratic models, often related to parabolic shapes."
+    },
+    {
+      "name": "Projectile Motion",
+      "description": "Modeling the motion of objects under gravity using quadratic equations and analyzing key points like maximum height and time."
+    },
+    {
+      "name": "Exponential Regression and Curve Fitting",
+      "description": "Using graphing calculators to find equations of best fit for data, comparing linear, quadratic, and exponential models."
+    },
+    {
+      "name": "Real-World Applications of Quadratics",
+      "description": "Solving problems involving geometry, optimization, and physical phenomena using quadratic equations and functions."
+    }
+  ]
+}

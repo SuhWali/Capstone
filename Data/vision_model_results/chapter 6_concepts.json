@@ -1,0 +1,44 @@
+{
+  "concepts": [
+    {
+      "name": "Graphing Linear Inequalities",
+      "description": "Understanding and graphing linear inequalities in one or two variables, including shading appropriate regions of the graph."
+    },
+    {
+      "name": "Solving Inequalities Using Addition and Subtraction",
+      "description": "Techniques for isolating variables in inequalities by adding or subtracting terms on both sides of the inequality."
+    },
+    {
+      "name": "Solving Inequalities Using Multiplication and Division",
+      "description": "Solving inequalities by multiplying or dividing both sides, including reversing the inequality sign when using negative numbers."
+    },
+    {
+      "name": "Compound Inequalities",
+      "description": "Solving and graphing inequalities involving 'and' or 'or' to represent multiple intervals."
+    },
+    {
+      "name": "Absolute Value Equations",
+      "description": "Solving equations involving absolute values by considering both positive and negative scenarios."
+    },
+    {
+      "name": "Absolute Value Inequalities",
+      "description": "Rewriting and solving inequalities with absolute values as compound inequalities, and applying them to real-world problems."
+    },
+    {
+      "name": "Linear Inequalities in Two Variables",
+      "description": "Graphing and solving inequalities in two variables, using shaded half-planes to represent solutions on a coordinate plane."
+    },
+    {
+      "name": "Real-World Applications of Inequalities",
+      "description": "Modeling real-world problems using inequalities and interpreting the solutions graphically or algebraically."
+    },
+    {
+      "name": "Interval and Set Notation",
+      "description": "Expressing solutions to inequalities using interval notation and set builder notation."
+    },
+    {
+      "name": "Representing Inequalities on Number Lines",
+      "description": "Graphing solutions to one-variable inequalities on number lines, using open or closed circles to indicate inclusion or exclusion."
+    }
+  ]
+}

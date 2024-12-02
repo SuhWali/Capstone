@@ -1,0 +1,44 @@
+{
+  "concepts": [
+    {
+      "name": "Slope-Intercept Form of Linear Equations",
+      "description": "A linear equation format y = mx + b, where m is the slope and b is the y-intercept, used for graphing and solving problems involving straight lines."
+    },
+    {
+      "name": "Writing Equations Given Slope and Intercept",
+      "description": "Creating equations in slope-intercept form by substituting the slope (m) and y-intercept (b) into the formula y = mx + b."
+    },
+    {
+      "name": "Writing Equations Given Slope and a Point",
+      "description": "Using the slope-intercept form and a specific point on the line to find the equation of the line."
+    },
+    {
+      "name": "Writing Equations Given Two Points",
+      "description": "Finding the slope between two points using the formula m = (y2 - y1) / (x2 - x1), then using one point to find the y-intercept and write the equation."
+    },
+    {
+      "name": "Point-Slope Form of Linear Equations",
+      "description": "A form of linear equations written as y - y1 = m(x - x1), useful when given a point and the slope."
+    },
+    {
+      "name": "Standard Form of Linear Equations",
+      "description": "Linear equations written as Ax + By = C, where A, B, and C are integers, with applications in solving and graphing vertical or horizontal lines."
+    },
+    {
+      "name": "Equations of Parallel and Perpendicular Lines",
+      "description": "Identifying or writing equations for lines with the same slope (parallel) or slopes that are negative reciprocals (perpendicular)."
+    },
+    {
+      "name": "Scatter Plots and Lines of Best Fit",
+      "description": "Graphing data points to visualize trends and fitting a line that minimizes the distance to all points, useful for linear regression."
+    },
+    {
+      "name": "Linear Interpolation and Extrapolation",
+      "description": "Estimating unknown values between (interpolation) or outside (extrapolation) given data points using linear equations."
+    },
+    {
+      "name": "Real-World Applications of Linear Models",
+      "description": "Using linear equations and graphs to solve problems involving rates of change, distances, costs, or other real-world scenarios."
+    }
+  ]
+}

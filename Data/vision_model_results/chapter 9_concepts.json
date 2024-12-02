@@ -1,0 +1,64 @@
+{
+  "concepts": [
+    {
+      "name": "Polynomials",
+      "description": "Mathematical expressions consisting of variables and coefficients, involving terms with positive integer powers of the variables."
+    },
+    {
+      "name": "Degrees of Polynomials",
+      "description": "The highest power of the variable in a polynomial determines its degree, such as constant, linear, quadratic, cubic, etc."
+    },
+    {
+      "name": "Addition and Subtraction of Polynomials",
+      "description": "Combining or separating polynomial terms by aligning like terms and performing arithmetic operations."
+    },
+    {
+      "name": "Multiplication of Polynomials",
+      "description": "Using distributive property to multiply each term of one polynomial by every term of another."
+    },
+    {
+      "name": "Factoring Polynomials",
+      "description": "Reversing the distributive property to express polynomials as a product of simpler factors."
+    },
+    {
+      "name": "Special Products of Polynomials",
+      "description": "Recognizing and factoring patterns like perfect squares, difference of squares, and sum/product of terms."
+    },
+    {
+      "name": "Zero-Product Property",
+      "description": "If the product of two expressions equals zero, then at least one of the expressions must be zero, used to solve polynomial equations."
+    },
+    {
+      "name": "Factoring Quadratic Trinomials",
+      "description": "Breaking down quadratic trinomials into binomial factors using methods based on coefficients."
+    },
+    {
+      "name": "Factoring by Grouping",
+      "description": "Grouping terms in a polynomial to factor common terms, often used for polynomials with four or more terms."
+    },
+    {
+      "name": "Factoring Special Products",
+      "description": "Techniques for factoring specific forms like perfect square trinomials and the difference of two squares."
+    },
+    {
+      "name": "Solving Polynomial Equations",
+      "description": "Using factoring methods and the zero-product property to find the solutions of polynomial equations."
+    },
+    {
+      "name": "Applications of Polynomial Factoring",
+      "description": "Using polynomial equations to solve real-world problems, such as geometry, area, and optimization scenarios."
+    },
+    {
+      "name": "Quadratic Equations",
+      "description": "Equations involving a squared term, which can be solved by factoring, completing the square, or using the quadratic formula."
+    },
+    {
+      "name": "Real-World Problems with Quadratics",
+      "description": "Applying quadratic equations to solve practical problems, including projectile motion and area calculations."
+    },
+    {
+      "name": "Pythagorean Theorem Applications",
+      "description": "Using quadratic polynomials and the Pythagorean theorem to solve problems involving right triangles."
+    }
+  ]
+}

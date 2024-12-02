@@ -1,0 +1,44 @@
+{
+  "concepts": [
+    {
+      "name": "Algebraic Expressions",
+      "description": "Understanding and manipulating variable expressions, including evaluating them for given variable values."
+    },
+    {
+      "name": "Substitution",
+      "description": "Replacing variables in an expression or equation with specific numerical values to simplify or solve."
+    },
+    {
+      "name": "Order of Operations",
+      "description": "A standard sequence (PEMDAS: Parentheses, Exponents, Multiplication and Division, Addition and Subtraction) to evaluate expressions consistently."
+    },
+    {
+      "name": "Exponents",
+      "description": "Expressions involving repeated multiplication, such as powers, and their evaluation."
+    },
+    {
+      "name": "Equations and Inequalities",
+      "description": "Solving mathematical statements involving equality (=) or inequality (<, >, ≤, ≥)."
+    },
+    {
+      "name": "Functions",
+      "description": "Relationships between inputs and outputs, described using equations, tables, or graphs, and understanding domains and ranges."
+    },
+    {
+      "name": "Graphing Functions",
+      "description": "Representing functions visually on a coordinate plane and analyzing their behavior."
+    },
+    {
+      "name": "Problem-Solving Strategies",
+      "description": "Using systematic approaches like writing equations, making tables, and checking results to solve real-world problems."
+    },
+    {
+      "name": "Real-World Applications",
+      "description": "Using algebra to model and solve practical problems, such as calculating costs, interpreting graphs, or determining rates."
+    },
+    {
+      "name": "Linear Relationships",
+      "description": "Understanding and solving problems involving proportional changes or constant rates of change."
+    }
+  ]
+}
