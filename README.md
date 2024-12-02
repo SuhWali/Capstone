@@ -1,6 +1,6 @@
 # Intelligent Learning System
 
-This project is an Intelligent Learning System designed to enhance K-12 mathematics education by providing personalized content recommendations and automated tagging of educational materials. The system uses advanced AI models, including Natural Language Processing (NLP) and layout analysis, to extract key concepts and map them to educational standards like the Common Core. The application is built using a scalable architecture with Angular (frontend), Django (backend), and PostgreSQL (database), containerized using Docker for seamless development and deployment.
+This project is an Intelligent Learning System designed to enhance K-12 mathematics education by providing personalized content recommendations and automated tagging of educational materials. The system uses advanced AI models, including Natural Language Processing (NLP) and Multimodel Generative AI, to extract key concepts and map them to educational standards like the Common Core. The application is built using a scalable architecture with Angular (frontend), Django (backend), and PostgreSQL (database), containerized using Docker for seamless development. For more details, please refer to the project report in the repository, named 'capstone_project'.
 
 ## Features
 - Automated extraction and tagging of educational content.
@@ -13,7 +13,7 @@ This project is an Intelligent Learning System designed to enhance K-12 mathemat
 ## Installation and Setup
 
 ### Prerequisites
-- Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/).
+- Install [Docker](https://docs.docker.com/get-docker/).
 
 ### Step 1: Clone the Repository
 ```bash
@@ -54,11 +54,6 @@ Run database migrations to set up the required tables:
 docker-compose exec backend python manage.py migrate
 ```
 
-### Step 5: Load Initial Data (Optional)
-If your application requires preloaded data (e.g., Common Core Standards), ensure the necessary SQL dump file is configured in the `docker-compose.yml` file or run:
-```bash
-docker-compose exec db psql -U $DB_USER -d $DB_NAME -f path_to_your_dump.sql
-```
 
 ---
 
