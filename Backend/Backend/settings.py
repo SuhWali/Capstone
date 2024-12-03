@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 os.environ['LANGCHAIN_TRACING_V2'] = 'true'  # Note: lowercase 'true'
-os.environ['LANGCHAIN_ENDPOINT'] = config('LANGCHAIN_ENDPOINT', default='https://api.smith.langchain.com')
+os.environ['LANGCHAIN_ENDPOINT'] = config('LANGCHAIN_ENDPOINT')
 os.environ['LANGCHAIN_API_KEY'] = config('LANGCHAIN_API_KEY')
 # os.environ['LANGCHAIN_PROJECT'] = config('LANGCHAIN_PROJECT', default='default')
 
